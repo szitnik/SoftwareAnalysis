@@ -46,7 +46,7 @@ object AuthorExtractor extends Logging {
           author = "mikio"
         }
       } else if (dataset.equals(SourceLocations.JUNG2_2_0_1)) {
-        if (authors.equals("the JUNG Project and the Regents of the University")) {
+        if (author.equals("the JUNG Project and the Regents of the University")) {
           author = "UNKNOWN"
         }
       }
@@ -55,16 +55,17 @@ object AuthorExtractor extends Logging {
         author = "UNKNOWN"
       }
 
+
       datasetValues += "%s \"%s\"".format(className, author)
       authors.add(author)
 
-      if (SoftwareFileUtil.extractAuthor(fileSource).equals("UNKNOWN")) {
+      if (author.equals("UNKNOWN")) {
         //println(filename)
         unknownCounter += 1
       }
     })
 
-    DatasetWriter.writeLines("result/AUTHORS_%s.txt".format(dsName.replaceAll("/.*", "")), datasetValues, "#CANONICAL_CLASS_NAME \"AUTHOR\"")
+    DatasetWriter.writeLines("result/AUTHORS_%s.txt".format(dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")), datasetValues, "#CANONICAL_CLASS_NAME \"AUTHOR\"")
 
     logger.info("\tUnknown author classes: %d".format(unknownCounter))
     logger.info("\tAll classes: %d".format(datasetValues.size))

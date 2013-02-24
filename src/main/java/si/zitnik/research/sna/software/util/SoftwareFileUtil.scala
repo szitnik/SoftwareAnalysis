@@ -51,7 +51,7 @@ object SoftwareFileUtil extends Logging {
   def extractAuthor(fileSource: String): String = {
     //val r = new Regex(""".*[Created by |@author]\s+([a-zA-Z ]+)$.*""", "author")
     //val r = new Regex(""".*(Java port of Bullet \(c\) 2008|Copyright \(c\) 2009,|Copyright \(c\) 2009-2011,|User:|Created by|author)\s+([a-zA-Z @\.]+).*""", "x","author")
-    val r = new Regex(""".*(Java port of Bullet \(c\) 2008|Copyright \(c\) 2009,|Copyright \(c\) 2009-2011,|User:|Created by|author)\s+([<=\">/a-zA-Z @\.0-9]+).*""", "x","author")
+    val r = new Regex(""".*(Copyright \(c\) 2001-2009|Java port of Bullet \(c\) 2008|Copyright \(c\) 2009,|Copyright \(c\) 2009-2011,|User:|Created by|author)\s+([<=\">/a-zA-Z @\.0-9]+).*""", "x","author")
 
     r.findFirstIn(fileSource) match {
       case Some(r(x, p)) => p;

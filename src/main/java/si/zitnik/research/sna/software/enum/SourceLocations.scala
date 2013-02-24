@@ -8,7 +8,7 @@ package si.zitnik.research.sna.software.enum
  * To change this template use File | Settings | File Templates.
  */
 object SourceLocations extends Enumeration {
-  private val location = "SoftwareSources/"
+  val location = "SoftwareSources/"
 
   val VUZE_4901_02 = Value(location + "Vuze_4901-02_source")
   val MIKIOBRAUN_JBLAS_6668AC9 = Value(location + "mikiobraun-jblas-6668ac9/src/main/java")

@@ -51,9 +51,9 @@ object SoftwareFileUtil extends Logging {
   def extractAuthor(fileSource: String): String = {
     //val r = new Regex(""".*[Created by |@author]\s+([a-zA-Z ]+)$.*""", "author")
     //val r = new Regex(""".*(Java port of Bullet \(c\) 2008|Copyright \(c\) 2009,|Copyright \(c\) 2009-2011,|User:|Created by|author)\s+([a-zA-Z @\.]+).*""", "x","author")
-    val r = new Regex(""".*(Copyright \(c\) 2001-2009|Java port of Bullet \(c\) 2008|Copyright \(c\) 2009,|Copyright \(c\) 2009-2011,|User:|Created by|author)\s+([<=\">/a-zA-Z @\.0-9]+).*""", "x","author")
+    val r = new Regex(""".*(User:|author)\s+([:<=\">/a-zA-Z @\.0-9]+).*""", "x","author")
 
-    r.findFirstIn(fileSource) match {
+    var res = r.findFirstIn(fileSource) match {
       case Some(r(x, p)) => p;
       case None => {
         //logger.error("**********************************\n"*10)
@@ -62,6 +62,22 @@ object SoftwareFileUtil extends Logging {
         "UNKNOWN"
       }
     }
+
+    if (res.equals("UNKNOWN")) {
+      val r1 = new Regex(""".*(Copyright \(c\) 2001-2009|Java port of Bullet \(c\) 2008|Copyright \(c\) 2009,|Copyright \(c\) 2009-2011,|User:|Created by|author)\s+([:<=\">/a-zA-Z @\.0-9]+).*""", "x","author")
+
+      res = r1.findFirstIn(fileSource) match {
+        case Some(r1(x, p)) => p;
+        case None => {
+          //logger.error("**********************************\n"*10)
+          //logger.error("No author found for source\n%s".format(fileSource))
+          //System.exit(-1)
+          "UNKNOWN"
+        }
+      }
+    }
+
+    res
   }
 
 }

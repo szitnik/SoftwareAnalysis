@@ -49,6 +49,23 @@ object AuthorExtractor extends Logging {
         if (author.equals("the JUNG Project and the Regents of the University")) {
           author = "UNKNOWN"
         }
+      } else if (dataset.equals(SourceLocations.JDK_1_8_0)) {
+        if (author.equals("2011") || author.equals("2012")) {
+          author = "UNKNOWN"
+        }
+        if (className.equals("javax.xml.bind.util.JAXBSource") ||
+            className.equals("javax.xml.bind.util.JAXBResult") ||
+            className.equals("javax.xml.bind.SchemaOutputResolver") ||
+          className.equals("javax.xml.bind.helpers.AbstractUnmarshallerImpl")) {
+          author = "Kohsuke Kawaguchi"
+        }
+        if (className.equals("javax.xml.bind.Binder")) {
+          author = "Kohsuke Kawaguchi|Joseph Fialli"
+        }
+      } else if (dataset.equals(SourceLocations.LUCENE_4_1_0)) {
+        if (author.equals("may not be used to endorse or promote products")) {
+          author = "Anders Moeller"
+        }
       }
 
       if (author.equals("\"")) {
@@ -81,7 +98,7 @@ object AuthorExtractor extends Logging {
     extractAuthors(SourceLocations.HADOOP_2_0_3_alpha)
     extractAuthors(SourceLocations.JBULLET_20101010) //Martin Dvorak is possibly jezek as has mail jezek2.
     extractAuthors(SourceLocations.JUNG2_2_0_1)
-    extractAuthors(SourceLocations.JDK_1_8_0)
+    //extractAuthors(SourceLocations.JDK_1_8_0)
   }
 
 }

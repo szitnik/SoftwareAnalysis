@@ -7,7 +7,7 @@ package si.zitnik.research.sna.software
  * Time: 11:55 PM
  * To change this template use File | Settings | File Templates.
  */
-class VariableNameExtractor {
+object VariableNameExtractor {
   //TODO:
   //maybe http://sablecc.org/ is useful here??
   //or EclipseJDT: Class VariableDeclaration

@@ -2,6 +2,7 @@ package si.zitnik.research.sna.software.util
 
 import util.matching.Regex
 import com.typesafe.scalalogging.slf4j.{Logger, Logging}
+import collection.mutable.ArrayBuffer
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +12,6 @@ import com.typesafe.scalalogging.slf4j.{Logger, Logging}
  * To change this template use File | Settings | File Templates.
  */
 object SoftwareFileUtil extends Logging {
-
 
 
   def extractPackage(fileSource: String): String = {
@@ -79,5 +79,56 @@ object SoftwareFileUtil extends Logging {
 
     res
   }
+
+
+  def extractComments(fileSource: String): String = {
+    val retVal = ArrayBuffer[String]()
+
+    val ignore = (comment: String) => {
+      if (comment.startsWith("user:") ||
+          comment.startsWith("author") ||
+          comment.startsWith("@author") ||
+        comment.startsWith("created") ||
+        comment.startsWith("@created") ||
+        comment.startsWith("copyright") ||
+        comment.startsWith("java port of bullet") ||
+        comment.startsWith("jblas - light-weight wrapper for atlas and lapack (http://www.jblas.org) copyright") ||
+        comment.startsWith("licensed to the apache software foundation")) {
+        true
+      } else {
+        false
+      }
+    }: Boolean
+
+    val processComment = (comment: String) => {
+        val c = comment.toLowerCase().
+        replaceAll("\\*", "").
+        replaceAll("@param [a-zA-Z]*", "").
+        replaceAll("@return [a-zA-Z]*", "").
+        replaceAll("@since [a-zA-Z\\.0-9]*", "").
+        replaceAll("(?s)\\s*(@author|author|user|created|@created).*$", "").
+        replaceAll("--- end license block ---", "").
+        replaceAll("--- begin license block ---", "").
+        replaceAll("\\s+", " ").
+        trim
+
+        if (!ignore(c)) {
+          retVal.append(c)
+        }
+    }
+
+    //block comments
+    var r = new Regex("""(?s)/\*(.*?)\*/""", "comment")
+    r.findAllMatchIn(fileSource).foreach(m => processComment(m.group("comment")))
+    //line
+    r = new Regex("""//(.*)""", "comment")
+    r.findAllMatchIn(fileSource).foreach(m => processComment(m.group("comment")))
+
+    //println(fileSource)
+    //println(retVal.mkString(" "))
+
+    retVal.mkString(" ")
+  }
+
 
 }

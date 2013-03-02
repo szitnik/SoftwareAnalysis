@@ -1,5 +1,6 @@
 package si.zitnik.research.sna.software
 
+import network.NetworkBuilder
 import util.{DatasetWriter, SoftwareFileUtil, SourceFinder}
 import si.zitnik.research.sna.software.enum.SourceLocations
 import scala.util.matching.Regex
@@ -23,7 +24,7 @@ object AuthorExtractor extends Logging {
     logger.info("Doing project: %s".format(dsName))
     val allSources = SourceFinder.findFiles(dsName)
     var unknownCounter = 0
-    val datasetValues = ArrayBuffer[String]()
+    val datasetValues = ArrayBuffer[(String, String)]()
     val authors = mutable.HashSet[String]()
 
     allSources.foreach(filename => {
@@ -72,8 +73,7 @@ object AuthorExtractor extends Logging {
         author = "UNKNOWN"
       }
 
-
-      datasetValues += "%s \"%s\"".format(className, author)
+      datasetValues += ((className, author))
       authors.add(author)
 
       if (author.equals("UNKNOWN")) {
@@ -82,7 +82,17 @@ object AuthorExtractor extends Logging {
       }
     })
 
-    DatasetWriter.writeLines("result/AUTHORS_%s.txt".format(dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")), datasetValues, "#CANONICAL_CLASS_NAME \"AUTHOR\"")
+    val networkValues = NetworkBuilder.buildNetworkFulltextMatch(datasetValues)
+    DatasetWriter.writeLines(
+      "result/NETWORK_AUTHORS_%s.txt".format(dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")),
+      networkValues.map(v => "%s %s".format(v._1, v._2)),
+      "#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME")
+    logger.info("\tNetwork: %d connections".format(networkValues.size))
+
+    DatasetWriter.writeLines(
+      "result/AUTHORS_%s.txt".format(dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")),
+      datasetValues.map(v => "%s \"%s\"".format(v._1, v._2)),
+      "#CANONICAL_CLASS_NAME \"AUTHOR\"")
 
     logger.info("\tUnknown author classes: %d".format(unknownCounter))
     logger.info("\tAll classes: %d".format(datasetValues.size))
@@ -93,12 +103,12 @@ object AuthorExtractor extends Logging {
   def main(args: Array[String]) {
     extractAuthors(SourceLocations.VUZE_4901_02)
     extractAuthors(SourceLocations.MIKIOBRAUN_JBLAS_6668AC9)
-    extractAuthors(SourceLocations.LUCENE_4_1_0) //problem - no authors
+    extractAuthors(SourceLocations.LUCENE_4_1_0)
     extractAuthors(SourceLocations.COLT)
     extractAuthors(SourceLocations.HADOOP_2_0_3_alpha)
     extractAuthors(SourceLocations.JBULLET_20101010) //Martin Dvorak is possibly jezek as has mail jezek2.
     extractAuthors(SourceLocations.JUNG2_2_0_1)
-    //extractAuthors(SourceLocations.JDK_1_8_0)
+    extractAuthors(SourceLocations.JDK_1_8_0)
   }
 
 }

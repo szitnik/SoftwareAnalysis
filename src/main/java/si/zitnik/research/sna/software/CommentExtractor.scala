@@ -1,5 +1,6 @@
 package si.zitnik.research.sna.software
 
+import network.NetworkBuilder
 import util.{DatasetWriter, SoftwareFileUtil, SourceFinder}
 import si.zitnik.research.sna.software.enum.SourceLocations
 import io.Source
@@ -21,7 +22,7 @@ object CommentExtractor extends Logging {
 
     logger.info("Doing project: %s".format(dsName))
     val allSources = SourceFinder.findFiles(dsName)
-    val datasetValues = ArrayBuffer[String]()
+    val datasetValues = ArrayBuffer[(String, String)]()
 
     allSources.foreach(filename => {
       //println(filename)
@@ -32,10 +33,41 @@ object CommentExtractor extends Logging {
 
       //println(comments)
 
-      datasetValues += "%s \"%s\"".format(className, comments)
+      datasetValues += ((className, comments))
     })
 
-    DatasetWriter.writeLines("result/COMMENTS_%s.txt".format(dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")), datasetValues, "#CANONICAL_CLASS_NAME \"COMMENTS\"")
+    (1 to 10).foreach(minMatch => {
+      val networkValues = NetworkBuilder.buildNetworkBOW(datasetValues, minMatch)
+      DatasetWriter.writeLines(
+        "result/NETWORK_BOW_%d_%s.txt".format(minMatch, dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")),
+        networkValues.map(v => "%s %s".format(v._1, v._2)),
+        "#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME")
+      logger.info("\tBOW %d: %d connections".format(minMatch, networkValues.size))
+    })
+
+    (0.3 to 1.0 by 0.1).foreach(scoreThreshold => {
+      val networkValues = NetworkBuilder.buildNetworkBOWJaccard(datasetValues, scoreThreshold)
+      DatasetWriter.writeLines(
+        "result/NETWORK_BOWJaccard_%.2f_%s.txt".format(scoreThreshold, dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")),
+        networkValues.map(v => "%s %s".format(v._1, v._2)),
+        "#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME")
+      logger.info("\tBOWJaccard %.2f: %d connections".format(scoreThreshold, networkValues.size))
+    })
+
+    (0.3 to 1.0 by 0.1).foreach(scoreThreshold => {
+      val networkValues = NetworkBuilder.buildNetworkTFIDFCosine(datasetValues, scoreThreshold)
+      DatasetWriter.writeLines(
+        "result/NETWORK_TFIDFCosine_%.2f_%s.txt".format(scoreThreshold, dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")),
+        networkValues.map(v => "%s %s".format(v._1, v._2)),
+        "#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME")
+      logger.info("\tTFIDFCosine %.2f: %d connections".format(scoreThreshold, networkValues.size))
+    })
+
+
+    DatasetWriter.writeLines(
+      "result/COMMENTS_%s.txt".format(dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")),
+      datasetValues.map(v => "%s \"%s\"".format(v._1, v._2)),
+      "#CANONICAL_CLASS_NAME \"COMMENTS\"")
 
   }
 

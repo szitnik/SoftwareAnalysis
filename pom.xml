@@ -28,6 +28,13 @@
             <version>1.0.1</version>
         </dependency>
 
+        <!-- BREEZE -->
+        <dependency>
+            <groupId>org.scalanlp</groupId>
+            <artifactId>breeze_2.10</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+
 
     </dependencies>
 </project>

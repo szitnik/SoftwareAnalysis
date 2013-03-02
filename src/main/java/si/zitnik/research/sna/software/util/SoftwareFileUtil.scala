@@ -93,7 +93,13 @@ object SoftwareFileUtil extends Logging {
         comment.startsWith("copyright") ||
         comment.startsWith("java port of bullet") ||
         comment.startsWith("jblas - light-weight wrapper for atlas and lapack (http://www.jblas.org) copyright") ||
-        comment.startsWith("licensed to the apache software foundation")) {
+        comment.startsWith("licensed to the apache software foundation") ||
+      comment.startsWith("=========================================================================== (c) copyright") ||
+      comment.startsWith("do not alter or remove copyright notices or this file header") ||
+      comment.startsWith("(c) copyright") ||
+      comment.startsWith("portions copyright") ||
+      comment.startsWith("licensed materials") ||
+      comment.startsWith("this file is available under and governed by the gnu general public license")) {
         true
       } else {
         false
@@ -121,7 +127,7 @@ object SoftwareFileUtil extends Logging {
     var r = new Regex("""(?s)/\*(.*?)\*/""", "comment")
     r.findAllMatchIn(fileSource).foreach(m => processComment(m.group("comment")))
     //line
-    r = new Regex("""//(.*)""", "comment")
+    r = new Regex("""\s+//(.*)""", "comment")
     r.findAllMatchIn(fileSource).foreach(m => processComment(m.group("comment")))
 
     //println(fileSource)

@@ -35,7 +35,7 @@ object CommentExtractor extends Logging {
       datasetValues += "%s \"%s\"".format(className, comments)
     })
 
-    DatasetWriter.writeLines("result/COMMENTS_%s.txt".format(dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")), datasetValues, "#CANONICAL_CLASS_NAME \"AUTHOR\"")
+    DatasetWriter.writeLines("result/COMMENTS_%s.txt".format(dsName.replaceFirst(SourceLocations.location, "").replaceAll("/.*", "")), datasetValues, "#CANONICAL_CLASS_NAME \"COMMENTS\"")
 
   }
 

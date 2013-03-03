@@ -1,0 +1,5 @@
+#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME
+org.jblas.exceptions.LapackConvergenceException org.jblas.ConvertsToFloatMatrix
+org.jblas.exceptions.LapackPositivityException org.jblas.ConvertsToFloatMatrix
+org.jblas.exceptions.LapackPositivityException org.jblas.exceptions.LapackConvergenceException
+org.jblas.benchmark.JavaFloatMultiplicationBenchmark org.jblas.benchmark.JavaDoubleMultiplicationBenchmark

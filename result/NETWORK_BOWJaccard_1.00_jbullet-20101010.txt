@@ -1,0 +1,3 @@
+#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME
+com.bulletphysics.collision.broadphase.DbvtTreeCollider com.bulletphysics.collision.broadphase.DbvtLeafCollider
+com.bulletphysics.demos.applet.Span com.bulletphysics.demos.applet.Light

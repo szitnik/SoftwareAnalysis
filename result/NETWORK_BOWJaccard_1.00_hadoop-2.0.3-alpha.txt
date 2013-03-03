@@ -1,0 +1,3 @@
+#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME
+org.apache.hadoop.ha.protocolPB.ZKFCProtocolPB org.apache.hadoop.ha.protocolPB.HAServiceProtocolPB
+org.apache.hadoop.fs.s3.S3FileSystemConfigKeys org.apache.hadoop.fs.s3native.S3NativeFileSystemConfigKeys

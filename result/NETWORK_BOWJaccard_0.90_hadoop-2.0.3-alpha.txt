@@ -1,0 +1,10 @@
+#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME
+org.apache.hadoop.metrics2.util.Servers org.apache.hadoop.metrics.spi.Util
+org.apache.hadoop.io.compress.lz4.Lz4Compressor org.apache.hadoop.io.compress.snappy.SnappyCompressor
+org.apache.hadoop.fs.permission.AccessControlException org.apache.hadoop.security.AccessControlException
+org.apache.hadoop.metrics.util.MetricsLongValue org.apache.hadoop.metrics.util.MetricsIntValue
+org.apache.hadoop.ha.protocolPB.ZKFCProtocolPB org.apache.hadoop.ha.protocolPB.HAServiceProtocolPB
+org.apache.hadoop.fs.s3.S3FileSystemConfigKeys org.apache.hadoop.fs.s3native.S3NativeFileSystemConfigKeys
+org.apache.hadoop.io.compress.snappy.SnappyDecompressor org.apache.hadoop.io.compress.lz4.Lz4Decompressor
+org.apache.hadoop.metrics.util.MetricsTimeVaryingLong org.apache.hadoop.metrics.util.MetricsTimeVaryingInt
+org.apache.hadoop.fs.MD5MD5CRC32GzipFileChecksum org.apache.hadoop.fs.MD5MD5CRC32CastagnoliFileChecksum

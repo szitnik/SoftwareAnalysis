@@ -1,0 +1,10 @@
+#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME
+com.bulletphysics.collision.broadphase.DbvtLeafCollider com.bulletphysics.collision.broadphase.DbvtTreeCollider
+com.bulletphysics.collision.shapes.CapsuleShapeX com.bulletphysics.collision.shapes.CapsuleShapeZ
+com.bulletphysics.collision.shapes.CylinderShapeZ com.bulletphysics.collision.shapes.CylinderShapeX
+com.bulletphysics.collision.shapes.ConeShapeX com.bulletphysics.collision.shapes.ConeShapeZ
+com.bulletphysics.demos.forklift.ForkLiftDemo com.bulletphysics.demos.vehicle.VehicleDemo
+com.bulletphysics.demos.applet.SoftwareGL com.bulletphysics.demos.opengl.LwjglGL
+com.bulletphysics.demos.applet.Span com.bulletphysics.demos.applet.Graphics3D
+com.bulletphysics.demos.applet.Light com.bulletphysics.demos.applet.Graphics3D
+com.bulletphysics.demos.applet.Light com.bulletphysics.demos.applet.Span

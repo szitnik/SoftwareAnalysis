@@ -1,0 +1,3 @@
+#CANONICAL_CLASS_NAME CANONICAL_CLASS_NAME
+edu.uci.ics.jung.visualization.renderers.EdgeLabelRenderer edu.uci.ics.jung.visualization.renderers.VertexLabelRenderer
+edu.uci.ics.jung.visualization.jai.PerspectiveLayoutTransformSupport edu.uci.ics.jung.visualization.jai.PerspectiveImageLensSupport
